@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Loqman Alawdi</title>
+<meta name="description" content="Loqman Alawdi, AI Engineer and Flutter Developer based in Riyadh, Saudi Arabia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky nav, split hero (intro + portrait), then a single 1080px reading column of sections with a left-aligned label rail on desktop. */
+:root {
+  --bg: #F4F6F7;
+  --surface: #FFFFFF;
+  --ink: #0F1B24;
+  --muted: #526270;
+  --line: #DCE3E8;
+  --accent: #0A6C96;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E1EEF5;
+  --warm: #A8743A;
+  --code-bg: #0F1B24;
+  --code-fg: #D8E3EA;
+  --code-key: #7CC4E8;
+  --code-str: #E3B57A;
+  --code-dim: #7D8E9B;
+  --shadow: 0 1px 2px rgba(15,27,36,.05), 0 8px 24px rgba(15,27,36,.06);
+
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+  --step--1: .8125rem;
+  --step-0: 1rem;
+  --step-1: 1.125rem;
+  --step-2: 1.5rem;
+  --step-3: 2rem;
+  --step-4: clamp(2.5rem, 6vw, 4.25rem);
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B131A; --surface: #111C24; --ink: #E6EDF2; --muted: #93A3B0; --line: #22313C;
+    --accent: #52B4E2; --accent-ink: #062130; --accent-soft: #12303F; --warm: #D7A665;
+    --code-bg: #070E13; --code-fg: #D8E3EA; --code-key: #7CC4E8; --code-str: #E3B57A; --code-dim: #6F818E;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B131A; --surface: #111C24; --ink: #E6EDF2; --muted: #93A3B0; --line: #22313C;
+  --accent: #52B4E2; --accent-ink: #062130; --accent-soft: #12303F; --warm: #D7A665;
+  --code-bg: #070E13; --code-fg: #D8E3EA; --code-key: #7CC4E8; --code-str: #E3B57A; --code-dim: #6F818E;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 var(--step-0)/1.65 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 20px; }
+
+/* Nav */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav .wrap { display: flex; align-items: center; gap: 16px; height: 60px; }
+.brand { font-family: var(--font-display); font-weight: 700; font-size: var(--step-1); color: var(--ink); white-space: nowrap; }
+.brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 4px; margin-left: auto; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a { color: var(--muted); font-size: var(--step--1); font-weight: 500; padding: 6px 10px; border-radius: 8px; white-space: nowrap; }
+.nav-links a:hover { color: var(--ink); background: var(--accent-soft); text-decoration: none; }
+.theme-btn {
+  flex: none; width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); cursor: pointer; display: grid; place-items: center;
+}
+.theme-btn svg { width: 18px; height: 18px; }
+
+/* Hero */
+.hero { padding-block: 56px 48px; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.eyebrow {
+  font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: .04em; color: var(--accent);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.hero h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -.02em; margin-top: 16px; }
+.hero h1 .full { display: block; font-family: var(--font-body); font-size: var(--step-0); font-weight: 400; color: var(--muted); letter-spacing: 0; margin-top: 10px; }
+.lead { font-size: var(--step-1); color: var(--muted); max-width: 54ch; margin-top: 20px; }
+.lead strong { color: var(--ink); font-weight: 600; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; font-size: var(--step--1); font-weight: 500;
+  padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+}
+.chip svg { width: 14px; height: 14px; color: var(--accent); flex: none; }
+.chip.warm svg { color: var(--warm); }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; font: 600 var(--step-0)/1 var(--font-body);
+  padding: 13px 20px; border-radius: 10px; border: 1px solid transparent; cursor: pointer;
+}
+.btn:hover { text-decoration: none; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { background: var(--surface); color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { border-color: var(--accent); }
+.btn svg { width: 18px; height: 18px; }
+
+.portrait { position: relative; justify-self: end; width: 100%; max-width: 380px; }
+.portrait-frame {
+  aspect-ratio: 4 / 5; max-width: 100%; border-radius: 22px; overflow: hidden;
+  background: var(--accent-soft); box-shadow: var(--shadow); border: 1px solid var(--line);
+}
+.portrait-frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; display: block; }
+.portrait-tag {
+  position: absolute; left: -18px; bottom: 28px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow); display: flex; gap: 10px; align-items: center;
+}
+.portrait-tag .dot { width: 34px; height: 34px; border-radius: 9px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; flex: none; }
+.portrait-tag .dot svg { width: 18px; height: 18px; }
+.portrait-tag b { display: block; font-size: var(--step--1); }
+.portrait-tag small { color: var(--muted); font-size: .75rem; }
+
+/* Sections */
+section.block { padding-block: 56px; border-top: 1px solid var(--line); }
+.block .wrap { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 40px; }
+.label { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; padding-top: 8px; }
+.block h2 { font-size: var(--step-3); font-weight: 700; letter-spacing: -.01em; margin-bottom: 24px; }
+
+/* About */
+.about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.about-text { display: grid; gap: 16px; color: var(--muted); max-width: 62ch; }
+.about-text strong { color: var(--ink); font-weight: 600; }
+.code {
+  background: var(--code-bg); color: var(--code-fg); border-radius: var(--radius); overflow: hidden;
+  font: 400 .8125rem/1.7 var(--font-mono); box-shadow: var(--shadow); min-width: 0;
+}
+.code-head { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,.08); color: var(--code-dim); font-size: .75rem; }
+.code-head i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.14); display: inline-block; }
+.code-head span { margin-left: 8px; }
+.code pre { margin: 0; padding: 16px 18px; overflow-x: auto; font: inherit; }
+.k { color: var(--code-key); } .s { color: var(--code-str); } .c { color: var(--code-dim); }
+
+/* Experience */
+.timeline { display: grid; gap: 0; }
+.job { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 24px; padding-block: 24px; border-bottom: 1px dashed var(--line); }
+.job:first-child { padding-top: 0; }
+.job:last-child { border-bottom: 0; padding-bottom: 0; }
+.job h3 { font-size: var(--step-2); font-weight: 500; }
+.job .org { color: var(--accent); font-weight: 500; margin-top: 4px; }
+.job .when { text-align: right; font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); white-space: nowrap; }
+.job .when b { display: block; color: var(--ink); font-weight: 500; }
+.job ul { grid-column: 1 / -1; display: grid; gap: 8px; margin-top: 8px; max-width: 72ch; }
+.job li { position: relative; padding-left: 20px; color: var(--muted); }
+.job li::before { content: ""; position: absolute; left: 2px; top: .7em; width: 8px; height: 2px; background: var(--accent); }
+
+/* Projects */
+.projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.project {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px; display: flex; flex-direction: column; gap: 10px; transition: border-color .2s, transform .2s;
+}
+.project:hover { border-color: var(--accent); transform: translateY(-2px); }
+.project .kind { font-family: var(--font-mono); font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.project .kind.ai { color: var(--accent); }
+.project h3 { font-size: var(--step-1); font-weight: 700; }
+.project p { color: var(--muted); font-size: .9375rem; flex: 1; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-family: var(--font-mono); font-size: .75rem; padding: 3px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--ink); }
+
+/* Skills */
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.skills h3 { font-family: var(--font-body); font-size: var(--step--1); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 14px; }
+.skills .tags { gap: 8px; }
+.skills .tag { font-family: var(--font-body); font-size: var(--step--1); padding: 6px 12px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); }
+.skills .tag.core { border-color: var(--accent); color: var(--accent); font-weight: 500; }
+
+/* Education */
+.creds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.cred { display: flex; gap: 14px; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.cred .ico { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; flex: none; }
+.cred .ico svg { width: 20px; height: 20px; }
+.cred b { display: block; font-weight: 600; line-height: 1.35; }
+.cred small { color: var(--muted); font-size: var(--step--1); }
+.langs { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 28px; }
+.lang { display: grid; gap: 6px; min-width: 200px; flex: 1; }
+.lang-row { display: flex; justify-content: space-between; font-size: var(--step--1); }
+.lang-row span { color: var(--muted); }
+.meter { height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--accent); border-radius: inherit; }
+
+/* Contact */
+.contact-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 32px; box-shadow: var(--shadow); }
+.contact-card > p { color: var(--muted); max-width: 56ch; margin-bottom: 24px; }
+.contact-list { display: grid; gap: 12px; }
+.contact-row { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; flex-wrap: wrap; }
+.contact-row .ico { width: 36px; height: 36px; border-radius: 9px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; flex: none; }
+.contact-row .ico svg { width: 18px; height: 18px; }
+.contact-row .val { flex: 1; min-width: 0; }
+.contact-row .val small { display: block; color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; }
+.contact-row .val a, .contact-row .val span { font-weight: 500; overflow-wrap: anywhere; user-select: all; color: var(--ink); }
+.copy { font: 500 var(--step--1)/1 var(--font-body); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; min-width: 72px; }
+.copy:hover { border-color: var(--accent); }
+
+footer { padding-block: 32px 48px; color: var(--muted); font-size: var(--step--1); border-top: 1px solid var(--line); }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+@media (max-width: 900px) {
+  .hero .wrap { grid-template-columns: 1fr; gap: 40px; }
+  .portrait { justify-self: start; max-width: 340px; order: -1; }
+  .block .wrap { grid-template-columns: 1fr; gap: 8px; }
+  .about { grid-template-columns: 1fr; }
+  .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skills { grid-template-columns: 1fr; gap: 24px; }
+}
+@media (max-width: 640px) {
+  .wrap { padding-inline: 16px; }
+  .nav-links { display: none; }
+  .theme-btn { margin-left: auto; }
+  .hero { padding-block: 32px 40px; }
+  .portrait { max-width: 100%; }
+  .portrait-tag { left: 12px; bottom: 12px; }
+  .projects, .creds { grid-template-columns: 1fr; }
+  .job { grid-template-columns: 1fr; }
+  .job .when { text-align: left; }
+  .job .when b { display: inline; margin-right: 8px; }
+  .contact-card { padding: 20px; }
+  section.block { padding-block: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .project { transition: none; }
+  .project:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top">Loqman<span>.</span></a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="theme-btn" id="theme-toggle" type="button" aria-label="Switch color theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">AI Engineer · Flutter Developer</span>
+      <h1>Loqman Alawdi<span class="full">Eng. Loqman Hameed Saleh Alawdi</span></h1>
+      <p class="lead">I build <strong>AI-powered features</strong> and <strong>cross-platform mobile apps</strong> with Python, Flutter and Dart, and I turn LLM and chatbot APIs into simple products people actually use.</p>
+      <div class="facts">
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg>Riyadh, Saudi Arabia</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Transferable Iqama</span>
+        <span class="chip warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.2 7 22l5-3 5 3-1.2-8.8"/></svg>Saudi Council of Engineers</span>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="#contact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          Get in touch
+        </a>
+        <a class="btn btn-ghost" href="#projects">View projects</a>
+      </div>
+    </div>
+    <figure class="portrait" style="margin:0">
+      <div class="portrait-frame">
+        <img src="photo.jpg" alt="Portrait of Loqman Alawdi" width="1080" height="1078">
+      </div>
+      <figcaption class="portrait-tag">
+        <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></span>
+        <span><b>B.Sc. Computer Engineering</b><small>Ibb University</small></span>
+      </figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+  <section class="block" id="about">
+    <div class="wrap">
+      <div class="label">About</div>
+      <div>
+        <h2>Engineer with a product mindset</h2>
+        <div class="about">
+          <div class="about-text">
+            <p>I'm an AI Engineer and Flutter Developer with a <strong>Computer Engineering degree</strong> and a growing focus on <strong>Product Management</strong>. I like starting from the user's problem, turning it into clear requirements, and working with the team until it ships.</p>
+            <p>My path combines hands-on delivery with real user contact: a six-month software development program at <strong>IgniteAI</strong>, a year delivering electronic government services in Saudi Arabia, and a year teaching computer science and English to university students.</p>
+            <p>I'm a registered member of the Saudi Council of Engineers and fluent in Arabic and English.</p>
+          </div>
+          <div class="code" aria-label="Profile summary written as Dart code">
+            <div class="code-head"><i></i><i></i><i></i><span>loqman.dart</span></div>
+<pre><span class="k">final</span> loqman = Engineer(
+  role: <span class="s">'AI Engineer · Flutter Dev'</span>,
+  basedIn: <span class="s">'Riyadh, KSA'</span>,
+  stack: [<span class="s">'Flutter'</span>, <span class="s">'Dart'</span>, <span class="s">'Python'</span>],
+  ai: [<span class="s">'LLM APIs'</span>, <span class="s">'Chatbots'</span>,
+       <span class="s">'Prompt Engineering'</span>],
+  speaks: [<span class="s">'Arabic'</span>, <span class="s">'English'</span>],
+  iqama: Iqama.<span class="k">transferable</span>,
+);
+<span class="c">// Problem → requirements → shipped.</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="experience">
+    <div class="wrap">
+      <div class="label">Experience</div>
+      <div>
+        <h2>Where I've worked</h2>
+        <div class="timeline">
+          <article class="job">
+            <div>
+              <h3>Software Development Trainee</h3>
+              <div class="org">IgniteAI · Training Program</div>
+            </div>
+            <div class="when"><b>6 months</b>Saudi Arabia</div>
+            <ul>
+              <li>Completed a six-month professional program in mobile application development with Flutter and Dart.</li>
+              <li>Built and shipped app screens and features from UI designs, working with REST APIs, state management and local storage.</li>
+              <li>Wrote Python scripts to automate repetitive tasks and prepare test data during development.</li>
+              <li>Delivered and presented a final project, documenting its architecture and the technologies used.</li>
+            </ul>
+          </article>
+          <article class="job">
+            <div>
+              <h3>Electronic Services Specialist</h3>
+              <div class="org">E-Services Center</div>
+            </div>
+            <div class="when"><b>1 year</b>Saudi Arabia</div>
+            <ul>
+              <li>Delivered electronic government services, processing online applications and digital transactions for customers.</li>
+              <li>Guided clients through government e-portals and explained required documents and steps, reducing rejected applications.</li>
+              <li>Handled customer data accurately and confidentially, and resolved technical and account issues on the spot.</li>
+              <li>Used Microsoft Word, Excel and PowerPoint daily for records, forms and reporting.</li>
+            </ul>
+          </article>
+          <article class="job">
+            <div>
+              <h3>Online Instructor, Computer Science &amp; English</h3>
+              <div class="org">Freelance</div>
+            </div>
+            <div class="when"><b>1 year</b>Remote</div>
+            <ul>
+              <li>Taught university students across multiple disciplines, covering computer science subjects and English.</li>
+              <li>Explained programming fundamentals and object-oriented concepts using Java, Dart and HTML with practical exercises.</li>
+              <li>Prepared lesson plans, exercises and exam preparation material tailored to each student's level.</li>
+              <li>Tracked student progress and adapted the teaching approach, maintaining strong attendance and results.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projects">
+    <div class="wrap">
+      <div class="label">Projects</div>
+      <div>
+        <h2>Things I've built</h2>
+        <div class="projects">
+          <article class="project">
+            <span class="kind ai">AI · Personal project</span>
+            <h3>AI Study Assistant Chatbot</h3>
+            <p>Answers student questions and generates practice questions from lecture notes.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">Flutter</span><span class="tag">LLM API</span></div>
+          </article>
+          <article class="project">
+            <span class="kind ai">AI · Personal project</span>
+            <h3>AI Notes Summarizer</h3>
+            <p>Summarizes long lecture texts and extracts key points. Used in live online tutoring sessions.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">LLM API</span></div>
+          </article>
+          <article class="project">
+            <span class="kind ai">Automation · Personal project</span>
+            <h3>Document OCR &amp; Data Extraction</h3>
+            <p>Reads scanned forms and exports the extracted data into structured Excel sheets.</p>
+            <div class="tags"><span class="tag">Python</span><span class="tag">OCR</span><span class="tag">Excel</span></div>
+          </article>
+          <article class="project">
+            <span class="kind">Mobile · Training project</span>
+            <h3>Student Companion App</h3>
+            <p>Course schedule, notes and quiz practice for university students.</p>
+            <div class="tags"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">REST API</span></div>
+          </article>
+          <article class="project">
+            <span class="kind">Mobile · Personal project</span>
+            <h3>E-Services Helper App</h3>
+            <p>Step-by-step guides and document checklists for common government e-services.</p>
+            <div class="tags"><span class="tag">Flutter</span><span class="tag">Dart</span></div>
+          </article>
+          <article class="project">
+            <span class="kind">Desktop · Academic project</span>
+            <h3>Java OOP Mini Applications</h3>
+            <p>Console applications built during studies: a library system, student records and a calculator.</p>
+            <div class="tags"><span class="tag">Java</span><span class="tag">OOP</span></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="skills">
+    <div class="wrap">
+      <div class="label">Skills</div>
+      <div>
+        <h2>What I work with</h2>
+        <div class="skills">
+          <div>
+            <h3>Development</h3>
+            <div class="tags">
+              <span class="tag core">Flutter</span><span class="tag core">Dart</span><span class="tag core">Python</span>
+              <span class="tag">Java</span><span class="tag">HTML</span><span class="tag">REST APIs</span>
+              <span class="tag">Cross-platform mobile</span><span class="tag">UI implementation</span><span class="tag">Git / GitHub</span>
+            </div>
+          </div>
+          <div>
+            <h3>AI</h3>
+            <div class="tags">
+              <span class="tag core">LLM &amp; AI APIs</span><span class="tag core">AI chatbots</span>
+              <span class="tag">Prompt engineering</span><span class="tag">Python automation</span>
+            </div>
+          </div>
+          <div>
+            <h3>Product &amp; people</h3>
+            <div class="tags">
+              <span class="tag core">Product thinking</span><span class="tag">Requirement gathering</span>
+              <span class="tag">Teaching &amp; communication</span><span class="tag">Microsoft Office</span><span class="tag">Digital literacy (IC3)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="education">
+    <div class="wrap">
+      <div class="label">Education</div>
+      <div>
+        <h2>Education &amp; credentials</h2>
+        <div class="creds">
+          <div class="cred">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></span>
+            <div><b>B.Sc. in Computer Engineering</b><small>Ibb University, Yemen</small></div>
+          </div>
+          <div class="cred">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.2 7 22l5-3 5 3-1.2-8.8"/></svg></span>
+            <div><b>Registered Member</b><small>Saudi Council of Engineers (SCE)</small></div>
+          </div>
+          <div class="cred">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
+            <div><b>IC3 Certification</b><small>Internet and Computing Core: digital literacy &amp; computer proficiency</small></div>
+          </div>
+          <div class="cred">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h8M8 3v2M5 13c2-2 4-5 5-8M6 9c1 2 3 4 5 5"/><path d="m13 21 4-9 4 9M14.5 18h5"/></svg></span>
+            <div><b>Diploma in English Language</b><small>Written &amp; spoken</small></div>
+          </div>
+        </div>
+        <div class="langs">
+          <div class="lang">
+            <div class="lang-row"><b>Arabic</b><span>Native</span></div>
+            <div class="meter" role="img" aria-label="Arabic: native"><i style="width:100%"></i></div>
+          </div>
+          <div class="lang">
+            <div class="lang-row"><b>English</b><span>Excellent, written &amp; spoken</span></div>
+            <div class="meter" role="img" aria-label="English: excellent"><i style="width:90%"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap">
+      <div class="label">Contact</div>
+      <div>
+        <h2>Let's work together</h2>
+        <div class="contact-card">
+          <p>I'm open to AI engineering, Flutter development and product roles in Riyadh or remote. My iqama is transferable, so I can start without a new visa.</p>
+          <div class="contact-list">
+            <div class="contact-row">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+              <div class="val"><small>Email</small><a href="mailto:loqmanawdi31@gmail.com" id="email-text">loqmanawdi31@gmail.com</a></div>
+              <button class="copy" type="button" data-copy="loqmanawdi31@gmail.com" data-target="email-text">Copy</button>
+            </div>
+            <div class="contact-row">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg></span>
+              <div class="val"><small>Phone / WhatsApp</small><a href="tel:+966533841634" id="phone-text">+966 53 384 1634</a></div>
+              <button class="copy" type="button" data-copy="+966533841634" data-target="phone-text">Copy</button>
+            </div>
+            <div class="contact-row">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <div class="val"><small>Location</small><span>Riyadh, Saudi Arabia</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year">2026</span> Loqman Alawdi</span>
+    <span>AI Engineer · Flutter Developer · Riyadh</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  try { var saved = localStorage.getItem('theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
+  document.getElementById('theme-toggle').addEventListener('click', function () {
+    var current = root.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); };
+      var fallback = function () {
+        var el = document.getElementById(btn.dataset.target);
+        var range = document.createRange(); range.selectNodeContents(el);
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        btn.textContent = 'Selected';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+      };
+      try { navigator.clipboard.writeText(btn.dataset.copy).then(done, fallback); } catch (e) { fallback(); }
+    });
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
